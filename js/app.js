@@ -1,6 +1,8 @@
 function loadPage() {
     $('.modal').modal();
+    $(document).on("click", ".modal-trigger", infoModal);
     getPokemones();
+    // pokemonesInfo();
 }
 
 function saveDataPokemon(data) {
@@ -11,6 +13,7 @@ function saveDataPokemon(data) {
         getPokemones();
     }
 }
+
 
 function getPokemones() {
     $.ajax({
@@ -23,35 +26,25 @@ function getPokemones() {
 .fail(handleError);
 }
 
+
 function addPokemones(saveData) {
-//     let hola = localStorage.getItem("data");
-//     console.log(hola);
-    
     
     let pokemones = saveData.pokemon_entries;
-    // console.log(pokemones);
     
     pokemones.forEach(element => {
-        // console.log(element.entry_number);
         
         let pokemonId = element.entry_number;
-        // console.log(pokemonId);
-        
-        // console.log(element);
-        // let pokemonSpecies = element.pokemon_species;
-        // console.log(pokemonSpecies);
         
         let pokemonSpeciesName = element.pokemon_species.name;
         let pokemonSpeciesURL = element.pokemon_species.url;
-        // console.log(pokemonSpeciesURL);
-//         // pokemonesInfo(pokemonSpeciesURL);
         paintPokemones(pokemonId, pokemonSpeciesName, pokemonSpeciesURL);
+        pokemonesInfo(pokemonSpeciesURL);
     })
 }
 
 function paintPokemones(pokemonId, pokemonSpeciesName, pokemonSpeciesURL) {
     
-    let $divContainer = $("#container")
+    let $divContainer = $("#container");
     let $divRows = $("#row");
     let $divCols = $("<div />");
     let $imagePokemon = $("<img />");
@@ -62,24 +55,13 @@ function paintPokemones(pokemonId, pokemonSpeciesName, pokemonSpeciesURL) {
     $imagePokemon.attr("data-id", pokemonId);
     $imagePokemon.attr("href", "#modal1");
     $imagePokemon.attr("src", "https://dummyimage.com/100x100/000/fff");
-    // $namePokemon.attr("data-id", pokemonId);
     $namePokemon.html(pokemonSpeciesName);
     
     $divRows.append($divCols);
     $divCols.append($imagePokemon);
     $divCols.append($namePokemon);
 
-
-    //modal
-    // let $contentModal = $('.modal-content');
-    // let $h4 = $('<h4 />');
-
-    // // $h4.attr("data-id", pokemonId);
-    // let $data = $(this).data("id");
-    // $h4.text($data);
-    // $contentModal.append($h4);
-    infoModal()
-    paintInfoModal();
+    // pokemonesInfo(pokemonSpeciesURL);
 }
 
 function infoModal() {
@@ -87,27 +69,28 @@ function infoModal() {
     paintInfoModal($dataId);
 }
 
-function paintInfoModal($dataId) {
-    let $contentModal = $(".modal-content");
-    let $h4 = $("<h4 />");
-    $h4.text($dataId);
 
-    $contentModal.append($h4);
-    infoModal()
+function paintInfoModal($dataId) {
+    let $h4 = $(".h4");
+    $h4.text($dataId);
 }
 
-// function pokemonesInfo(pokemonSpeciesURL) {
-//     $.ajax({
-//         url: pokemonSpeciesURL
-//     })
-//     .done(addInfoPokemones)
-//     .fail(handleError);
-// }
+function pokemonesInfo(pokemonSpeciesURL) {
+    $.ajax({
+        url: pokemonSpeciesURL
+    })
+    .done(addInfoPokemones)
+    .fail(handleError);
+}
 
-// function addInfoPokemones(info) {
-//     console.log(info);
+function addInfoPokemones(info) {
+    console.log(info.color.name);
     
-// }
+    const captureRate = info.capture_rate;
+    // console.log(captureRate);
+    
+    
+}
 
 function handleError() {
     console.log("esto es un error");
