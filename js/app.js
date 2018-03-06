@@ -71,8 +71,8 @@ function infoModal() {
 
 
 function paintInfoModal($dataId) {
-    let $h4 = $(".h4");
-    $h4.text($dataId);
+    let $idPokemon = $(".h2");
+    $idPokemon.text($dataId);
 }
 
 function pokemonesInfo(pokemonSpeciesURL) {
@@ -84,9 +84,9 @@ function pokemonesInfo(pokemonSpeciesURL) {
 }
 
 function addInfoPokemones(info) {
-    console.log(info.color.name);
-    
-    const captureRate = info.capture_rate;
+    let habitat = info.habitat.name;
+    let color = info.color.name;
+    let captureRate = info.capture_rate;
     // console.log(captureRate);
     
     
